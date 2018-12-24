@@ -1,4 +1,5 @@
 using Luxor
+using Colors
 using QHull: chull
 using ConvexBodyProximityQueries: closest_points
 using StaticArrays
