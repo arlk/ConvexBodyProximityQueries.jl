@@ -120,7 +120,7 @@ function gjk(p::Any, q::Any, init_dir::SVector{N, T}, max_iter::Int, atol::Real,
         qs = support(q, -dir)
         s = ps - qs
         collision = query(dir, collision, params...)
-        distance_condition = s⋅(-dir) ≥ 0 && abs(sum(abs2, dir) - s⋅(-dir)) ≤ atol^2
+        distance_condition = s⋅(-dir) ≥ eps(T) && abs(sum(abs2, dir) - s⋅(-dir)) ≤ atol^2
 
         max_iter -= 1
         if max_iter ≤ 0
