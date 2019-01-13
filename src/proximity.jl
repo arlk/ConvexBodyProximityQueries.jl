@@ -50,7 +50,7 @@ function minimum_distance(p::Any, q::Any, init_dir::SVector; max_iter=100, atol=
 end
 
 """
-    tolerance_verifcation(p, q, dir, τ; max_iter=100, atol=0.0)
+    tolerance_verification(p, q, dir, τ; max_iter=100, atol=0.0)
 
 Compute if the convex objects `p` and `q` are at least `τ`
 tolerance apart within some tolerance. Provide an initial
