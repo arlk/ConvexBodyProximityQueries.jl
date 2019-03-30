@@ -1,5 +1,5 @@
 name = "ConvexBodyProximityQueries"
-uuid = "a707fd40-00dc-11e9-1a6f-098bd5ab4b0c"
+uuid = "e9983d58-8b29-5530-8046-db49618142f9"
 authors = ["Arun Lakshmanan <lakshma2@illinois.edu>"]
 version = "0.1.1"
 
