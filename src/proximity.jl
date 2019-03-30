@@ -1,5 +1,5 @@
 """
-    closest_points(p, q, dir; max_iter=100; atol=0.0)
+    closest_points(p, q, dir; max_iter=100, atol=0.0)
 
 Compute the closest points between convex objects `p` and `q` if
 they are not colliding within some tolerance. Provide an initial
@@ -28,7 +28,7 @@ function closest_points(p::Any, q::Any, init_dir::SVector; max_iter=100, atol=0.
 end
 
 """
-    minimum_distance(p, q, dir; max_iter=100; atol=0.0)
+    minimum_distance(p, q, dir; max_iter=100, atol=0.0)
 
 Compute the minimum seperating distance between convex objects
 `p` and `q` within some tolerance. Provide an initial search
