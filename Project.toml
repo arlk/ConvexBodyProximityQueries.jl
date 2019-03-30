@@ -1,7 +1,7 @@
 name = "ConvexBodyProximityQueries"
 uuid = "a707fd40-00dc-11e9-1a6f-098bd5ab4b0c"
 authors = ["Arun Lakshmanan <lakshma2@illinois.edu>"]
-version = "0.1.0"
+version = "0.1.2"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
