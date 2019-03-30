@@ -153,23 +153,24 @@ function findtetrahedron(psimplex::SMatrix{N}, qsimplex::SMatrix{N}) where {N}
     AB = simplex[:, 3] - simplex[:, 4]
     AC = simplex[:, 2] - simplex[:, 4]
     AD = simplex[:, 1] - simplex[:, 4]
-    BC = simplex[:, 2] - simplex[:, 3]
-    BD = simplex[:, 1] - simplex[:, 3]
     AO = -simplex[:, 4]
-    if (AB × AC) ⋅ AO < 0
-        psimplex = pickcolumns(psimplex, 2, 3, 4)
-        qsimplex = pickcolumns(qsimplex, 2, 3, 4)
+    AB_O = sign((AC × AD) ⋅ AO) == sign((AC × AD) ⋅ AB)
+    AC_O = sign((AD × AB) ⋅ AO) == sign((AD × AB) ⋅ AC)
+    AD_O = sign((AB × AC) ⋅ AO) == sign((AB × AC) ⋅ AD)
+    if (AB_O && AC_O && AD_O)
+        return psimplex, qsimplex, AO, true, 4
+    elseif (!AB_O)
+        psimplex = pickcolumns(psimplex, 1, 2, 4)
+        qsimplex = pickcolumns(qsimplex, 1, 2, 4)
         return findtriangle(psimplex, qsimplex)
-    elseif (AD × AB) ⋅ AO < 0
-        psimplex = pickcolumns(psimplex, 2, 3, 4)
-        qsimplex = pickcolumns(qsimplex, 2, 3, 4)
-        return findtriangle(psimplex, qsimplex)
-    elseif (AC × AD) ⋅ AO < 0
-        psimplex = pickcolumns(psimplex, 2, 3, 4)
-        qsimplex = pickcolumns(qsimplex, 2, 3, 4)
+    elseif (!AC_O)
+        psimplex = pickcolumns(psimplex, 3, 1, 4)
+        qsimplex = pickcolumns(qsimplex, 3, 1, 4)
         return findtriangle(psimplex, qsimplex)
     else
-        return psimplex, qsimplex, AO, true, 4
+        psimplex = pickcolumns(psimplex, 2, 3, 4)
+        qsimplex = pickcolumns(qsimplex, 2, 3, 4)
+        return findtriangle(psimplex, qsimplex)
     end
 end
 
