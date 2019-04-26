@@ -95,6 +95,25 @@ end
 end
 ```
 
+### Obstacle Types
+
+Here are some additional types that are constructed for convenience:
+```julia
+julia> @point rand(3)
+ConvexPolygon{3,1,Float64}(SArray{Tuple{3},Float64,1,3}[[0.135678, 0.840508, 0.140532]])
+julia> @line [0.,1.,1.], [1.,2.,1.] # point A, point B
+ConvexPolygon{3,2,Float64}(SArray{Tuple{3},Float64,1,3}[[0.0, 1.0, 1.0], [1.0, 2.0, 1.0]])
+julia> @rect [0.,0.], rand(2) # center, widths
+ConvexPolygon{2,4,Float64}(SArray{Tuple{2},Float64,1,2}[[0.395191, 0.174093], [-0.395191, 0.174093], [-0.395191, -0.174093], [0.395191, -0.174093]])
+julia> @square ones(3), 1.0 # center, width
+ConvexPolygon{3,8,Float64}(SArray{Tuple{3},Float64,1,3}[[1.5, 1.5, 1.5], [0.5, 1.5, 1.5], [0.5, 0.5, 1.5], [1.5, 0.5, 1.5], [1.5, 1.5, 0.5], [0.5, 1.5, 0.5], [0.5, 0.5, 0.5], [1.5, 0.5, 0.5]])
+```
+Random convex polygons can be constructed for 2D:
+```julia
+julia> obs = randpoly([1., 2.], 0.5; scale=1.0, n=20) # center, rotation; scale, number of vertices
+ConvexPolygon{2,20,Float64}(SArray{Tuple{2},Float64,1,2}[[0.642686, 2.36248], [0.622121, 2.34973], [0.42866, 2.06399], [0.412454, 2.0344], [0.454968, 1.98069], [0.499506, 1.92797], [0.599317, 1.82251], [0.62982, 1.79366], [0.659987, 1.76526], [0.733777, 1.71118], [0.87861, 1.63702], [1.07313, 1.54129], [1.46142, 1.68951], [1.46817, 1.72673], [1.48588, 1.85669], [1.46772, 2.06245], [1.3987, 2.23026], [1.30631, 2.4218], [1.20662, 2.61294], [0.88346, 2.47282]])
+```
+
 ### Speed
 
 As the core routines use StaticArrays, they are very well optimized and run quickly with no memory allocations. However, it is upto to the user to provide efficient code for the `support` and a good `init_dir` vector to squeeze the best performance from the functions.
