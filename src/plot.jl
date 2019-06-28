@@ -14,6 +14,6 @@ using RecipesBase
     leg := false
     @series begin
         vertices = vcat(a.pts, a.pts[1:1])
-        vertices
+        Tuple.(vertices)
     end
 end
