@@ -88,15 +88,17 @@ function findline(psimplex::SMatrix{N}, qsimplex::SMatrix{N}) where {N}
     simplex = psimplex - qsimplex
     AB = simplex[:, 1] - simplex[:, 2]
     AO = -simplex[:, 2]
-    if AB ⋅ AO > 0
+    T = eltype(psimplex)
+    ntol = eps(T)*oneunit(T)
+    if AB ⋅ AO > zero(T)^2
         dir = AO - proj(AB, AO)
-        collision = sum(abs2, dir) ≤ 2*eps(Float64)
+        collision = norm(dir) ≤ ntol
         return psimplex, qsimplex, dir, collision, 2
     else
         dir = AO
         psimplex = pickcolumns(psimplex, 2)
         qsimplex = pickcolumns(qsimplex, 2)
-        collision = sum(abs2, dir) ≤ 2*eps(Float64)
+        collision = norm(dir) ≤ ntol
         return psimplex, qsimplex, dir, collision, 1
     end
 end
@@ -107,26 +109,28 @@ function findtriangle(psimplex::SMatrix{N}, qsimplex::SMatrix{N}) where {N}
     AC = simplex[:, 1] - simplex[:, 3]
     BC = simplex[:, 1] - simplex[:, 2]
     AO = -simplex[:, 3]
-    if (AC ⋅ AB * BC - AC ⋅ BC * AB) ⋅ AO > 0
-        if AC ⋅ AO > 0
+    T = eltype(psimplex)
+    ntol = eps(T)*oneunit(T)
+    if (AC ⋅ AB * BC - AC ⋅ BC * AB) ⋅ AO > zero(T)^4
+        if AC ⋅ AO > zero(T)^2
             psimplex = pickcolumns(psimplex, 1, 3)
             qsimplex = pickcolumns(qsimplex, 1, 3)
             dir = AO - proj(AC, AO)
-            collision = sum(abs2, dir) ≤ 2*eps(Float64)
+            collision = norm(dir) ≤ ntol
             return psimplex, qsimplex, dir, collision, 2
         else
             psimplex = pickcolumns(psimplex, 2, 3)
             qsimplex = pickcolumns(qsimplex, 2, 3)
             return findline(psimplex, qsimplex)
         end
-    elseif (AB ⋅ BC * AB - AB ⋅ AB * BC) ⋅ AO > 0
+    elseif (AB ⋅ BC * AB - AB ⋅ AB * BC) ⋅ AO > zero(T)^3
         psimplex = pickcolumns(psimplex, 2, 3)
         qsimplex = pickcolumns(qsimplex, 2, 3)
         return findline(psimplex, qsimplex)
     else
-        if sum(abs2, AO) ≤ 2*eps(Float64)
+        if norm(AO) ≤ ntol
             return psimplex, qsimplex, AO, true, 3
-        elseif sum(abs2, AC - proj(AB, AC)) ≤ 2*eps(Float64)
+        elseif norm(AC - proj(AB, AC)) ≤ ntol
             psimplex = pickcolumns(psimplex, 2, 3)
             qsimplex = pickcolumns(qsimplex, 2, 3)
             return findline(psimplex, qsimplex)
@@ -135,13 +139,13 @@ function findtriangle(psimplex::SMatrix{N}, qsimplex::SMatrix{N}) where {N}
         else
             ABC = AB × BC
             dir = proj(ABC, AO)
-            if ABC ⋅ AO > 0
+            if ABC ⋅ AO > zero(T)^3
                 psimplex = pickcolumns(psimplex, 2, 1, 3)
                 qsimplex = pickcolumns(qsimplex, 2, 1, 3)
-                collision = sum(abs2, dir) ≤ 2*eps(Float64)
+                collision = norm(dir) ≤ ntol
                 return psimplex, qsimplex, dir, collision, 3
             else
-                collision = sum(abs2, dir) ≤ 2*eps(Float64)
+                collision = norm(dir) ≤ ntol
                 return psimplex, qsimplex, dir, collision, 3
             end
         end
@@ -213,9 +217,10 @@ function trianglecombination(simplex::SMatrix{N}, vec::SVector{N}) where {N}
     AB = simplex[:, 2] - simplex[:, 3]
     AC = simplex[:, 1] - simplex[:, 3]
     BC = simplex[:, 1] - simplex[:, 2]
+    T = eltype(simplex)
 
-    if (AC ⋅ AB * BC - AC ⋅ BC * AB) ⋅ AV > 0
-        if AC ⋅ AV > 0
+    if (AC ⋅ AB * BC - AC ⋅ BC * AB) ⋅ AV > zero(T)^3
+        if AC ⋅ AV > zero(T)^2
             dir = AO - proj(AC, AV)
             idx = SMatrix{3, 2}(1, 0, 0, 0, 0, 1)
             simplex = pickcolumns(simplex, 1, 3)
@@ -227,7 +232,7 @@ function trianglecombination(simplex::SMatrix{N}, vec::SVector{N}) where {N}
             λAB1, λAB2 = linecombination(simplex, -dir)
             return 0.0, λAB1, λAB2
         end
-    elseif (AB ⋅ BC * AB - AB ⋅ AB * BC) ⋅ AV > 0
+    elseif (AB ⋅ BC * AB - AB ⋅ AB * BC) ⋅ AV > zero(T)^3
         dir = AO - proj(AB, AV)
         simplex = pickcolumns(simplex, 2, 3)
         λAB1, λAB2 = linecombination(simplex, -dir)
