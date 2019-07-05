@@ -7,7 +7,7 @@ function proj(u::AbstractVector, v::AbstractVector)
     (u ⋅ v)/(u ⋅ u)*u
 end
 
-@generated function insertcolumn(s::SVector{N, T}) where {N, T}
+@generated function insertcolumn(s::StaticVector{N, T}) where {N, T}
     S = (N, N+1)
     exprs = Array{Expr}(undef, S)
     itr = [1:n for n = S]
@@ -22,7 +22,7 @@ end
     end
 end
 
-@generated function insertcolumn(simplex::SMatrix{N, M, T}, s::SVector{N, T}, idx::Vararg{Int, 1}) where {N, M, T}
+@generated function insertcolumn(simplex::SMatrix{N, M, T}, s::StaticVector{N, T}, idx::Vararg{Int, 1}) where {N, M, T}
     S = (N, M)
     exprs = Array{Expr}(undef, S)
     itr = [1:n for n = S]

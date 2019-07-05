@@ -46,7 +46,7 @@ julia> minimum_distance(p, q, dir)
 """
 function minimum_distance(p::Any, q::Any, init_dir::SVector{D, T}; max_iter=100, atol::T=sqrt(eps(T))*oneunit(T)) where {D, T}
     collision, dir, psimplex, qsimplex, sz = gjk(p, q, init_dir, max_iter, atol, minimum_distance_cond)
-    return collision ? 0.0 : norm(dir)
+    return collision ? zero(eltype(dir)) : norm(dir)
 end
 
 """
@@ -144,7 +144,7 @@ function tolerance_verification_cond(dir::SVector, collision::Bool, tv)
     tv > norm(dir) ? true : collision
 end
 
-@generated function check_degeneracy(simplex::SMatrix{N, M, T}, s::SVector{N, T}, sz::Vararg{Int, 1}) where {N, M, T}
+@generated function check_degeneracy(simplex::SMatrix{N, M, T}, s::StaticVector{N, T}, sz::Vararg{Int, 1}) where {N, M, T}
     exprs = :(false)
     for i = 1:M
         exprs = :($i > sz[1] ? $exprs : ($exprs || norm(simplex[:, $i] - s) ≤ eps($T)*oneunit($T)))
