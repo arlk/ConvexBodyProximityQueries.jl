@@ -31,6 +31,16 @@ julia> dir = @SVector(rand(2)) .- 0.5
  0.4242237214159814
 ```
 
+Or if you prefer to use [LazySets](https://github.com/JuliaReach/LazySets.jl) to represent bounded convex sets, then simply import it into your workspace.
+```julia
+julia> using LazySets
+julia> vp = rand(VPolytope, dim=3, num_vertices=5)
+VPolytope{Float64}(Array{Float64,1}[[0.10865726649792662, 0.5724776430968089, -0.4410130831362367], [-0.8567759573657892, 0.07322903371223476, 0.34838985370789005], [0.03333527704052754, -1.974401966811797, 0.6174108419158255], [-0.4904624889544439, -0.3210835102598013, -1.1688696283212616], [-0.4369808677028199, -1.3570945645627628, -0.7506142537189342]])
+
+julia> e = Ellipsoid([1.,1.,1.], diagm([1.0, 2.0, 3.0]))
+Ellipsoid{Float64}([1.0, 1.0, 1.0], [1.0 0.0 0.0; 0.0 2.0 0.0; 0.0 0.0 3.0])
+```
+
 All the proximity queries can be performed simply by providing the polytope information and an initial searchdirection. In addition, `tolerance_verfication` requires an argument specifying the minimum tolerance of speration between two objects. :
 ```julia
 julia> using BenchmarkTools
