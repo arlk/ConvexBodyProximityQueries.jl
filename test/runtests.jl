@@ -7,4 +7,5 @@ using StaticArrays
     include("support.jl")
     include("simplex.jl")
     include("proximity.jl")
+    include("lazysets.jl")
 end
