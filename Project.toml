@@ -1,7 +1,7 @@
 name = "ConvexBodyProximityQueries"
 uuid = "e9983d58-8b29-5530-8046-db49618142f9"
 authors = ["Arun Lakshmanan <lakshma2@illinois.edu>"]
-version = "0.1.8"
+version = "0.2.0"
 
 [deps]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
@@ -14,13 +14,8 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 LazySets = "1.30"
 RecipesBase = "0.6, 0.7, 0.8, 1.0"
 Requires = "0.5, 1.0"
-StaticArrays = "0.10, 0.11, 0.12"
+StaticArrays = "0.10, 0.11, 0.12, 1.0"
 julia = "1.4"
 
 [extras]
-GeometryTypes = "4d00f742-c7ba-57c2-abde-4428a4b178cb"
 LazySets = "b4f0291d-fe17-52bc-9479-3d1a343d9043"
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["LazySets", "GeometryTypes", "Test"]

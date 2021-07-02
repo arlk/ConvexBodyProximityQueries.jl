@@ -2,12 +2,12 @@ using ConvexBodyProximityQueries: proj
 @testset "projection operation" begin
     a⃗ = SVector{2}([1.0, 2.0])
     b⃗ = SVector{2}([-1.0, 1.0])
-    @test all(proj(a⃗,b⃗) .≈ [0.2, 0.4])
-    @test all(proj(b⃗,a⃗) .≈ [-0.5, 0.5])
+    @test isapprox(proj(a⃗,b⃗), [0.2, 0.4], rtol=1e-3)
+    @test isapprox(proj(b⃗,a⃗), [-0.5, 0.5], rtol=1e-3)
     a⃗ = SVector{3}([1.0, 2.0, 2.0])
     b⃗ = SVector{3}([-1.0, 1.0, -2.0])
-    @test all(proj(a⃗,b⃗) .≈ [-1.0, -2.0, -2.0]/3)
-    @test all(proj(b⃗,a⃗) .≈ [0.5, -0.5, 1.0])
+    @test isapprox(proj(a⃗,b⃗), [-1.0, -2.0, -2.0]/3, rtol=1e-3)
+    @test isapprox(proj(b⃗,a⃗), [0.5, -0.5, 1.0], rtol=1e-3)
 end # projection operation
 
 #  TODO: fix tests
