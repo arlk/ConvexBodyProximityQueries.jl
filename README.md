@@ -69,10 +69,10 @@ function ConvexBodyProximityQueries.support(obj::MyFancyShape, dir::SVector{N}) 
   return supporting_point::SVector{N}
 end
 ```
-_Note:_ This is how I intended the package to be used, the vanilla `support` function is quite naive and only works for a StaticArray of vertices. Here are some examples for some geometries found in [GeometryTypes.jl](https://github.com/JuliaGeometry/GeometryTypes.jl):
+_Note:_ This is how I intended the package to be used, the vanilla `support` function is quite naive and only works for a StaticArray of vertices. Here are some examples for some geometries found in [GeometryBasics.jl](https://github.com/JuliaGeometry/GeometryBasics.jl):
 ```julia
 import ConvexBodyProximityQueries.support
-using GeometryTypes: HyperSphere, HyperRectangle, HyperCube
+using GeometryBasics: HyperSphere, HyperRectangle
 
 function ConvexBodyProximityQueries.support(sphere::HyperSphere{N, T}, dir::AbstractVector) where {N, T}
     SVector{N}(sphere.center + sphere.r*normalize(dir, 2))
@@ -82,19 +82,6 @@ end
     exprs = Array{Expr}(undef, (N,))
     for i = 1:N
         exprs[i] = :(rect.widths[$i]*(dir[$i] ≥ 0.0 ? 1.0 : -1.0)/2.0 + rect.origin[$i])
-    end
-
-    return quote
-        Base.@_inline_meta
-        @inbounds elements = tuple($(exprs...))
-        @inbounds return SVector{N, T}(elements)
-    end
-end
-
-@generated function ConvexBodyProximityQueries.support(cube::HyperCube{N, T}, dir::AbstractVector) where {N, T}
-    exprs = Array{Expr}(undef, (N,))
-    for i = 1:N
-        exprs[i] = :(cube.width*(dir[$i] ≥ 0.0 ? 1.0 : -1.0)/2.0 + cube.origin[$i])
     end
 
     return quote
