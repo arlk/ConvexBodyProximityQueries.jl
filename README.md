@@ -1,6 +1,6 @@
 # ConvexBodyProximityQueries
 
-[![Build Status](https://travis-ci.org/arlk/ConvexBodyProximityQueries.jl.svg?branch=master)](https://travis-ci.org/arlk/ConvexBodyProximityQueries.jl) [![codecov](https://codecov.io/gh/arlk/ConvexBodyProximityQueries.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/arlk/ConvexBodyProximityQueries.jl)
+[![Build Status](https://travis-ci.com/arlk/ConvexBodyProximityQueries.jl.svg?branch=master)](https://travis-ci.com/arlk/ConvexBodyProximityQueries.jl) [![codecov](https://codecov.io/gh/arlk/ConvexBodyProximityQueries.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/arlk/ConvexBodyProximityQueries.jl)
 
 ![](https://github.com/arlk/ConvexBodyProximityQueries.jl/raw/master/readme/logo.gif)
 
