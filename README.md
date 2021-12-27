@@ -43,7 +43,7 @@ Ellipsoid{Float64}([1.0, 1.0, 1.0], [1.0 0.0 0.0; 0.0 2.0 0.0; 0.0 0.0 3.0])
 
 All the proximity queries can be performed simply by providing the polytope information and an initial searchdirection. In addition, `tolerance_verfication` requires an argument specifying the minimum tolerance of speration between two objects. :
 ```julia
-julia> using BenchmarkTools
+julia> using ConvexBodyProximityQueries, BenchmarkTools
 julia> @btime closest_points($polyA, $polyB, $dir)
   172.901 ns (0 allocations: 0 bytes)
 ([0.477455, 0.88009], [1.60674, 1.69457])
